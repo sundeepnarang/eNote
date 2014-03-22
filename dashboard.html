@@ -31,9 +31,11 @@
 <div id="board"  class ="target" style="width:98%;height:98%;margin: 5px;padding: 5px;border: black;border-width: 10px;border-style: solid;"></div>
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+ <link rel="stylesheet" type="text/css" href="./JS/mathquill-0.9.3/mathquill.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script src="./JS/editable.js"></script>
 <script src="./JS/jquery.contextMenu.js" type="text/javascript" charset="utf-8"></script>
+<script src="./JS/mathquill-0.9.3/mathquill.min.js"></script>
 <script type="text/javascript" >
 var num = 0;
 $('#board').dblclick(function(e) {
@@ -64,7 +66,7 @@ $('#board').contextMenu('context-menu-1', {
             },
             'Add Equation' : {
             	click: function(e){
-            		$('#board').append("<textarea class='mathdoxformula' 'Eq_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;'></textarea>");
+            		$("<span id='Eq_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;'></span>").appendTo('#board').mathquill('editable');
                     $("#Eq_"+num).draggable({containment : $("#board")});
                     num= num +1;
             	}
