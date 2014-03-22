@@ -2,15 +2,42 @@
 <head>
 </head>
 <body>
-<div id="board" style="width:100%;height:100%;margin: 5px;padding: 5px;border: black;border-width: 10px;border-style: solid;"></div>
+<style type="text/css" media="screen">
+	.context-menu {
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+
+        background-color: #f2f2f2;
+        border: 1px solid #999;
+
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .context-menu a {
+        display: block;
+        padding: 3px;
+        text-decoration: none;
+        color: #333;
+      }
+      .context-menu a:hover {
+        background-color: #666;
+        color: white;
+      }
+</style>
+<H2 style="text-align:center">Welcome to eNote</H2>
+<H3 style="text-align:center">Double Click Anywhere to Add Text, Right Click to add a widget</H3>
+<div id="board"  class ="target" style="width:98%;height:98%;margin: 5px;padding: 5px;border: black;border-width: 10px;border-style: solid;"></div>
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script src="./JS/editable.js"></script>
+<script src="./JS/jquery.contextMenu.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" >
 var num = 0;
 $('#board').dblclick(function(e) {
-	console.log("clicked",e.clientX,e.clientY,"  --  ",e.target);
+	console.log("clicked",e,e.clientX,e.clientY,"  --  ",e.target);
 	if(e.target == this){
 	//alert("clicked");
 	$( this ).append("<div id = 'text_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;min-width:50px;min-height:10px;margin: 5px;padding: 5px;border: black;border-width: 1px;border-style: solid'>Double click to type or Click and drag</div>");
@@ -19,6 +46,30 @@ $('#board').dblclick(function(e) {
 	$("#text_"+num).draggable({containment : $("#board")});
 	num = num+1;
 }
+});
+$(document).ready(function(){
+$('#board').contextMenu('context-menu-1', {
+            'Add Tree': {
+                click: function(e) {  // element is the jquery obj clicked on when context menu launched
+                	console.log("clicked",e,e.clientX,e.clientY,"  --  ",e.target);
+                    $('#board').append("<img src='./img/tree2.jpg'id = 'tree_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;width:150px;height:150px;'>");
+                    $("#tree_"+num).draggable({containment : $("#board")});
+                    num= num +1;
+                },
+                klass: "menu-item-1" // a custom css class for this menu item (usable for styling)
+            },
+            'Add Flow Chart': {
+                click: function(element){ alert('second clicked'); },
+                klass: "second-menu-item"
+            },
+            'Add Equation' : {
+            	click: function(e){
+            		$('#board').append("<textarea class='mathdoxformula' 'Eq_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;'></textarea>");
+                    $("#Eq_"+num).draggable({containment : $("#board")});
+                    num= num +1;
+            	}
+            }
+        });
 
 });
 </script>
