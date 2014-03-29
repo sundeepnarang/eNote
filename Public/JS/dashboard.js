@@ -1,42 +1,3 @@
-<html>
-<head>
-</head>
-<body style="background: rgb(88, 102, 175);">
-<style type="text/css" media="screen">
-	.context-menu {
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-
-        background-color: #f2f2f2;
-        border: 1px solid #999;
-
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      .context-menu a {
-        display: block;
-        padding: 3px;
-        text-decoration: none;
-        color: #333;
-      }
-      .context-menu a:hover {
-        background-color: #666;
-        color: white;
-      }
-</style>
-<H3 style="text-align:center;color:White">Welcome to eNote</H3>
-<H4 style="text-align:center;color:White">Double Click Anywhere to Add Text, Right Click to add a widget</H4>
-<div id="board"  class ="target" style="width:98%;height:98%;margin: 5px;padding: 5px;border: rgb(167, 167, 167);border-width: 5px;border-style: solid;background-image: url(./img/crumpled-paper.jpg);background-size: 100%;"></div>
- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
- <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
- <link rel="stylesheet" type="text/css" href="./JS/mathquill-0.9.3/mathquill.css">
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-<script src="./JS/editable.js"></script>
-<script src="./JS/jquery.contextMenu.js" type="text/javascript" charset="utf-8"></script>
-<script src="./JS/mathquill-0.9.3/mathquill.min.js"></script>
-<script type="text/javascript" >
 var num = 0;
 $('#board').dblclick(function(e) {
 	console.log("clicked",e,e.clientX,e.clientY,"  --  ",e.target);
@@ -75,6 +36,49 @@ $('#board').contextMenu('context-menu-1', {
         });
 
 });
-</script>
-</body>
-</html>
+      function timecode(ms) {
+        var hms = {
+          h: Math.floor(ms/(60*60*1000)),
+          m: Math.floor((ms/60000) % 60),
+          s: Math.floor((ms/1000) % 60)
+        };
+        var tc = []; // Timecode array to be joined with '.'
+
+        if (hms.h > 0) {
+          tc.push(hms.h);
+        }
+
+        tc.push((hms.m < 10 && hms.h > 0 ? "0" + hms.m : hms.m));
+        tc.push((hms.s < 10  ? "0" + hms.s : hms.s));
+
+        return tc.join(':');
+      }
+    
+    
+      Recorder.initialize({
+        swfSrc: "./JS/recorder.swf"
+      });
+
+      function record(){
+        Recorder.record({
+          start: function(){
+            //alert("recording starts now. press stop when youre done. and then play or upload if you want.");
+          },
+          progress: function(milliseconds){
+            document.getElementById("time").innerHTML = timecode(milliseconds);
+          }
+        });
+      }
+      
+      function play(){
+        Recorder.stop();
+        Recorder.play({
+          progress: function(milliseconds){
+            document.getElementById("time").innerHTML = timecode(milliseconds);
+          }
+        });
+      }
+      
+      function stop(){
+        Recorder.stop();
+      }

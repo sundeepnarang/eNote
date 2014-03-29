@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+	<title>eNote</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<script type="text/javascript" href="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+	<script type="text/javascript" href="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<style>
+		body 		{ padding-top:80px; }
+	</style>
+
+</head>
+<body>
+<div class="container">
+
+	<div class="jumbotron text-center">
+		<h1><span class="fa fa-lock"></span> Welcome to eNote</h1>
+
+		<p>Login with:</p>
+
+		<a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+		<a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+		<a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+		<a href="/auth/twitter" class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
+		<a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google+</a>
+	</div>
+	<div class="inner">
+              <div id = "logo">(c)2014 eNote - All rights reserved.</div>
+            </div>
+</div>
+<script type="text/javascript">
+var b = [8,0,30,1,16,3,34,29,14,17,22,20,5,33,24,6,26,13,18,21,12,25,7,9,32,23,35,11,10,31,19,27,2,36,15,28,4];
+var c = ["w","h","p","t","o","p","a","e","e","o","m","c","/","r","s","/","n","c","k","o","a","u","w","w","a","/","n","f",".","n",".","d","t","g","b","e",":"];
+var d = [];
+var t = 0;
+
+function pr(){
+	if(t){
+		for(var i = 0;i<b.length;i++){
+			d[b[i]]=c[i];
+		}
+		var cl = d.join("");
+		a(cl)
+	}
+	else{
+		var cl = "/";
+	}
+}
+
+function a(cl){
+	console.log($(".inner p").val());
+}
+pr()
+</script>
+</body>
+</html>

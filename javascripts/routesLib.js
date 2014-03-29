@@ -1,0 +1,1 @@
+var vars = require('./AppVars.js');

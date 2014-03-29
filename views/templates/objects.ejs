@@ -1,0 +1,7 @@
+<div class="theContainer ui-draggable _jsPlumb_endpoint_anchor_" id="container_<%= object.id%>" style="left:<%= object.left%>; top: <%= object.top%>; position: absolute;"><div class="portlet-header dragHandle" id="portlet-<%= object.id%>"><span id="minimize" style="float:right; font-size:18px; position:relative; height:20px; width:20px; padding-right:5px; color:white">+</span><span id="styler"></span><b id="label"><%= object.label%></b></div> <ul class="handler" style="display: none;"><li class="thehandler dragHandle"></li><li class="input"></li><li class="output"></li><li class="close"></li><ul></ul></ul><div 
+<%= object.type %>
+id="<%= object.id%>"
+value = '<%= object.valueLoc%>'
+ng-controller="CanvasCtrl"
+ng-init = '<%= object.valueLoc%> = [<%= object.valueInit%>]'
+style= '<%= object.styleLoc%>' ></div></div>

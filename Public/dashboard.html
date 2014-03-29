@@ -1,0 +1,52 @@
+<html>
+<head>
+</head>
+<body style="background: rgb(88, 102, 175);">
+<style type="text/css" media="screen">
+	.context-menu {
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+
+        background-color: #f2f2f2;
+        border: 1px solid #999;
+
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .context-menu a {
+        display: block;
+        padding: 3px;
+        text-decoration: none;
+        color: #333;
+      }
+      .context-menu a:hover {
+        background-color: #666;
+        color: white;
+      }
+</style>
+<H3 style="text-align:center;color:White">Welcome to eNote</H3>
+<H4 style="text-align:center;color:White">Double Click Anywhere to Add Text, Right Click to add a widget</H4>
+ <div id="wrapper">
+      <h4 style="text-align:center;color:White">Recorder your lecture here</h1>
+        <div>
+          <a href="javascript:record()"  id="record" style="text-align:center;color:White" >Record</a>
+          <a href="javascript:play()"    id="play"   style="text-align:center;color:White" >Play</a> 
+          <a href="javascript:stop()"    id="stop"   style="text-align:center;color:White" >Stop</a>
+        </div>
+        
+        <span id="time" style="text-align:center;color:White">0:00</span>
+    </div>
+<div id="board"  class ="target" style="width:98%;height:98%;margin: 5px;padding: 5px;border: rgb(167, 167, 167);border-width: 5px;border-style: solid;background-image: url(./img/crumpled-paper.jpg);background-size: 100%;"></div>
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+ <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+ <link rel="stylesheet" type="text/css" href="./JS/mathquill-0.9.3/mathquill.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="./JS/editable.js"></script>
+<script src="./JS/jquery.contextMenu.js" type="text/javascript" charset="utf-8"></script>
+<script src="./JS/mathquill-0.9.3/mathquill.min.js"></script>
+<script type="text/javascript" src="./JS/recorder.js"></script>
+<script type="text/javascript" src="./JS/dashboard.js"></script>
+</body>
+</html>
