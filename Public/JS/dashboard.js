@@ -1,12 +1,20 @@
 var num = 0;
+var dragHandle = "<div class='dragHandle' style='width:10px;height:10px;background-color: black;left: 5px;top: -5px;position: relative;float: left;'></div>";
+var delHandle = "<div class='delHandle' style='width:10px;height:10px;background-color: red;left: -5px;top: -5px;position: relative;float: right;'></div>";
 $('#board').dblclick(function(e) {
-	console.log("clicked",e,e.clientX,e.clientY,"  --  ",e.target);
+//	console.log("clicked",e,e.clientX,e.clientY,"  --  ",e.target);
 	if(e.target == this){
 	//alert("clicked");
-	$( this ).append("<div id = 'text_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;min-width:50px;min-height:10px;margin: 5px;padding: 5px;border: black;border-width: 1px;border-style: solid'>Double click to type or Click and drag</div>");
+  $( this ).append("<div  id = 'text_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;'></div>");
+
+  $( "#text_"+num ).append(dragHandle+delHandle+"<textarea style='margin: 5px;padding: 5px;border: black;border-width: 1px;border-style: solid'>Click to type</textarea>");
 	
-	$("#text_"+num).editable();
-	$("#text_"+num).draggable({containment : $("#board")});
+	$("#text_"+num).draggable({containment : $("#board")
+                              ,handler : $('#text_'+num+' .dragHandle')});
+  $("#text_"+num +" textarea").autosize({append: "\n"});
+  $("#text_"+num +" .delHandle").click(function(){
+    $(this).parent().remove();
+  })
 	num = num+1;
 }
 });
@@ -15,8 +23,13 @@ $('#board').contextMenu('context-menu-1', {
             'Add Tree': {
                 click: function(e) {  // element is the jquery obj clicked on when context menu launched
                 	console.log("clicked",e,e.clientX,e.clientY,"  --  ",e.target);
-                    $('#board').append("<img src='./img/tree2.jpg'id = 'tree_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;width:150px;height:150px;'>");
-                    $("#tree_"+num).draggable({containment : $("#board")});
+                    $('#board').append("<div  id = 'tree_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;'></div>");
+                    $('#tree_'+num).append(dragHandle+delHandle+"<img src='./img/tree2.jpg'id = 'tree_"+num+"' style=width:150px;height:150px;'>");
+                    $("#tree_"+num).draggable({containment : $("#board")
+                                                  ,handler : $('#tree_'+num+' .dragHandle')});
+                    $("#tree_"+num +" .delHandle").click(function(){
+                          $(this).parent().remove();
+                        })
                     num= num +1;
                 },
                 klass: "menu-item-1" // a custom css class for this menu item (usable for styling)
@@ -27,10 +40,15 @@ $('#board').contextMenu('context-menu-1', {
             },
             'Add Equation' : {
             	click: function(e){
-            		$("<span id='Eq_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;'></span>").appendTo('#board').mathquill('editable');
-                    $("#Eq_"+num).draggable({containment : $("#board")});
-                    $("#Eq_"+num).focus();
-                    num= num +1;
+                $('#board').append("<div  id = 'Eq_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;'></div>");
+            		$('#Eq_'+num).append(dragHandle+delHandle);
+                $("<span>\\sumTypeAnEquationHere</span>").appendTo("#Eq_"+num).mathquill('editable');
+                $("#Eq_"+num).draggable({containment : $("#board")
+                                          ,handler : $('#Eq_'+num+' .dragHandle')});
+                $("#Eq_"+num +" .delHandle").click(function(){
+                      $(this).parent().remove();
+                    })
+                num= num +1;
             	}
             }
         });
