@@ -1,8 +1,10 @@
 <html>
 <head>
+  <script type="application/javascript" src="socket.io/socket.io.js"></script>
 </head>
 <body style="background: rgb(88, 102, 175);">
 <style type="text/css" media="screen">
+
 	.context-menu {
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
@@ -38,6 +40,8 @@
         
         <span id="time" style="text-align:center;color:White">0:00</span>
     </div>
+<a href="javascript:save()">Save To File </a>
+<a id="test" href="\Download"></a>
 <div id="board"  class ="target" style="width:98%;height:98%;margin: 5px;padding: 5px;border: rgb(167, 167, 167);border-width: 5px;border-style: solid;background-image: url(./img/crumpled-paper.jpg);background-size: 100%;"></div>
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />

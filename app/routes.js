@@ -101,6 +101,12 @@ module.exports = function(app, passport,fs,lib) {
 			}));
 
 
+	// download --------------------------------
+
+		app.get('/Download',isLoggedIn,function(req,res){
+			res.write('./Public/tmp/test.txt')
+		});
+
 
 
 	// load resources ------------------------

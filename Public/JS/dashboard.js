@@ -1,4 +1,5 @@
 var num = 0;
+socket = io.connect();
 var dragHandle = "<div class='dragHandle' style='width:10px;height:10px;background-color: black;left: 5px;top: -5px;position: relative;float: left;'></div>";
 var delHandle = "<div class='delHandle' style='width:10px;height:10px;background-color: red;left: -5px;top: -5px;position: relative;float: right;'></div>";
 $('#board').dblclick(function(e) {
@@ -100,3 +101,13 @@ $('#board').contextMenu('context-menu-1', {
       function stop(){
         Recorder.stop();
       }
+
+      function save(){
+        data = $("#board")[0].innerHTML
+        console.log(data);
+        socket.emit("Download",data);
+      }
+
+      socket.on("Download",function(){
+        $.get("/Download");
+      });

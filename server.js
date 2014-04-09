@@ -93,4 +93,14 @@ io.set('log level', 1);
  
 io.sockets.on('connection', function(socket) {
 	console.log("Connected");
+	socket.on("Download",function(data){
+		fs.writeFile("./Public/tmp/test.txt", data, function(err) {
+    if(err) {
+        console.log(err);
+    } else {
+        console.log("The file was saved!");
+        socket.emit("Download");
+    }
+}); 
+	});
 });
