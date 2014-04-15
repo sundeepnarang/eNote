@@ -34,6 +34,22 @@ module.exports = function(app, passport,fs,lib) {
 		res.redirect('/');
 	});
 
+	app.get('/download', isLoggedIn, function(req,res){
+		res.set('Content-Type', 'application/note');
+		res.send(JSON.stringify(lib.vars.objects[req.connection.remoteAddress]));
+	});
+
+	app.post('/upload', isLoggedIn, function(req,res){
+		fs.readFile(req.files.displayImage.path, function (err, data) {
+			console.log("1 - ",data.toString('utf8').length," - s");
+			if(data.toString('utf8').length){
+				lib.vars.objects[req.connection.remoteAddress] = JSON.parse(data.toString('utf8'));
+			}
+			res.redirect('/home');
+		})
+
+	});
+
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
 // =============================================================================
@@ -104,7 +120,7 @@ module.exports = function(app, passport,fs,lib) {
 	// download --------------------------------
 
 		app.get('/Download',isLoggedIn,function(req,res){
-			res.write('./Public/tmp/test.txt')
+			res.download('./Public/tmp/test.txt')
 		});
 
 

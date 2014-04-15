@@ -1,21 +1,66 @@
 var num = 0;
 socket = io.connect();
+
 var dragHandle = "<div class='dragHandle' style='width:10px;height:10px;background-color: black;left: 5px;top: -5px;position: relative;float: left;'></div>";
 var delHandle = "<div class='delHandle' style='width:10px;height:10px;background-color: red;left: -5px;top: -5px;position: relative;float: right;'></div>";
+
+socket.on("work",function(data){
+  console.log(data)
+  num = data.length
+  for(i = 0;i<data.length;i++){
+    $('#board').append("<div  id = '"+data[i].name+"' style='left:"+data[i].position.left+";top:"+data[i].position.top+";position:absolute;'></div>");
+    $( "#"+data[i].name ).append(dragHandle+delHandle+"<textarea style='margin: 5px;padding: 5px;border: black;border-width: 1px;border-style: solid'>Click to type</textarea>");
+  
+  $("#"+data[i].name).draggable({containment : $("#board")
+                              ,handler : $('#text_'+num+' .dragHandle')
+                              ,stop:function(){
+                                console.log("Postion updated")
+                                socket.emit("updatePos",$(this).attr('id'),{left : $(this).css("left"),top: $(this).css("top")});
+                              }
+                            });
+  $("#"+data[i].name +" textarea").autosize({append: "\n"});
+  $("#"+data[i].name +" textarea").change(function(){
+    console.log("Value updated")
+    socket.emit('updateVal',$(this).parent().attr('id'),$(this).val())
+  });
+  $("#"+data[i].name +" .delHandle").click(function(){
+    socket.emit("removeObject",$(this).parent().attr('id'));
+    $(this).parent().remove();
+  })
+  $("#"+data[i].name +" textarea").val(data[i].value);
+  }
+
+});
+
 $('#board').dblclick(function(e) {
 //	console.log("clicked",e,e.clientX,e.clientY,"  --  ",e.target);
 	if(e.target == this){
 	//alert("clicked");
-  $( this ).append("<div  id = 'text_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;'></div>");
+  $( this ).append("<div  id = 'text_"+num+"' style='left:"+(e.clientX)+"px;top:"+(e.clientY + window.pageYOffset)+"px;position:absolute;'></div>");
 
   $( "#text_"+num ).append(dragHandle+delHandle+"<textarea style='margin: 5px;padding: 5px;border: black;border-width: 1px;border-style: solid'>Click to type</textarea>");
 	
 	$("#text_"+num).draggable({containment : $("#board")
-                              ,handler : $('#text_'+num+' .dragHandle')});
+                              ,handler : $('#text_'+num+' .dragHandle')
+                              ,stop:function(){
+                                console.log("Postion updated")
+                                socket.emit("updatePos",$(this).attr('id'),{left : $(this).css("left"),top: $(this).css("top")});
+                              }
+                            });
   $("#text_"+num +" textarea").autosize({append: "\n"});
+  $("#text_"+num +" textarea").change(function(){
+    console.log("Value updated")
+    socket.emit('updateVal',$(this).parent().attr('id'),$(this).val())
+  });
   $("#text_"+num +" .delHandle").click(function(){
+    socket.emit("removeObject",$(this).parent().attr('id'));
     $(this).parent().remove();
   })
+  textboxinfo = {name:"text_"+num
+                  , position : {left : $("#text_"+num).css("left"),top: $("#text_"+num).css("top")}
+                  , value : $("#text_"+num +" textarea").val()
+                   }
+  socket.emit("createObject",textboxinfo)
 	num = num+1;
 }
 });

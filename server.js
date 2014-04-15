@@ -2,6 +2,7 @@
 
 // set up ======================================================================
 // get all the tools we need
+var vars = require('./javascripts/AppVars.js');   
 var express  = require('express');
 var app = express()
   , http = require('http')
@@ -93,14 +94,40 @@ io.set('log level', 1);
  
 io.sockets.on('connection', function(socket) {
 	console.log("Connected");
-	socket.on("Download",function(data){
-		fs.writeFile("./Public/tmp/test.txt", data, function(err) {
-    if(err) {
-        console.log(err);
-    } else {
-        console.log("The file was saved!");
-        socket.emit("Download");
-    }
-}); 
+	if(vars.objects[socket.handshake.address.address] ){
+		socket.emit("work",vars.objects[socket.handshake.address.address])
+	}else{
+		vars.objects[socket.handshake.address.address] = [];
+	}
+	socket.on("createObject",function(data){
+		vars.objects[socket.handshake.address.address].push(data);
+		console.log("createObject - ",vars.objects);
+	});
+	socket.on("updatePos",function(name,pos){
+		console.log("updatePos",arguments);
+		for(i = 0;i<vars.objects[socket.handshake.address.address].length;i++){
+			if (vars.objects[socket.handshake.address.address][i].name == name){
+				vars.objects[socket.handshake.address.address][i].position = pos;
+				console.log("updatePos - ",vars.objects);
+			}
+		}
+	});
+	socket.on("updateVal",function(name,val){
+		console.log("updateVal",arguments);
+		for(i = 0;i<vars.objects[socket.handshake.address.address].length;i++){
+			if (vars.objects[socket.handshake.address.address][i].name == name){
+				vars.objects[socket.handshake.address.address][i].value = val;
+				console.log("updateVal - ",vars.objects);
+			}
+		}
+	});
+	socket.on("removeObject",function(name){
+		console.log("removeObject",arguments);
+		for(i = 0;i<vars.objects[socket.handshake.address.address].length;i++){
+			if (vars.objects[socket.handshake.address.address][i].name == name){
+				vars.objects[socket.handshake.address.address].splice(i,1);
+				console.log("removeObject - ",vars.objects);
+			}
+		}
 	});
 });

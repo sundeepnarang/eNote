@@ -1,1 +1,1 @@
-var vars = require('./AppVars.js');
+exports.vars = require('./AppVars.js');
