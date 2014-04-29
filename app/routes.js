@@ -4,7 +4,7 @@ module.exports = function(app, passport,fs,lib) {
 
 	// show the home page (will also have our login links)
 	app.get('/', isLoggedInIndex,function(req, res) {
-		fs.readFile('./public/dashboard.html',function (err, data) {
+		fs.readFile('./Public/dashboard.html',function (err, data) {
 	      if (err) {
 	        res.writeHead(500);
 	        return res.end('Error loading index.html');
@@ -37,6 +37,22 @@ module.exports = function(app, passport,fs,lib) {
 	app.get('/download', isLoggedIn, function(req,res){
 		res.set('Content-Type', 'application/note');
 		res.send(JSON.stringify(lib.vars.objects[req.connection.remoteAddress]));
+	});
+
+	app.get('/tree',isLoggedIn,function(req,res){
+		res.redirect('/treecreator')
+	});
+
+	app.get('/treecreator',isLoggedIn,function(req,res){
+		fs.readFile('./Public/tree.html',function (err, data) {
+	      if (err) {
+	        res.writeHead(500);
+	        return res.end('Error loading index.html');
+	      }
+
+	      res.writeHead(200);
+	      res.end(data);
+		});
 	});
 
 	app.post('/upload', isLoggedIn, function(req,res){

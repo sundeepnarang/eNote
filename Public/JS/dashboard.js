@@ -67,17 +67,7 @@ $('#board').dblclick(function(e) {
 $(document).ready(function(){
 $('#board').contextMenu('context-menu-1', {
             'Add Tree': {
-                click: function(e) {  // element is the jquery obj clicked on when context menu launched
-                	console.log("clicked",e,e.clientX,e.clientY,"  --  ",e.target);
-                    $('#board').append("<div  id = 'tree_"+num+"' style='left:"+e.clientX+"px;top:"+e.clientY+"px;position:absolute;'></div>");
-                    $('#tree_'+num).append(dragHandle+delHandle+"<img src='./img/tree2.jpg'id = 'tree_"+num+"' style=width:150px;height:150px;'>");
-                    $("#tree_"+num).draggable({containment : $("#board")
-                                                  ,handler : $('#tree_'+num+' .dragHandle')});
-                    $("#tree_"+num +" .delHandle").click(function(){
-                          $(this).parent().remove();
-                        })
-                    num= num +1;
-                },
+                link: '<a href="/tree">Add Tree</a>',
                 klass: "menu-item-1" // a custom css class for this menu item (usable for styling)
             },
             'Add Flow Chart': {

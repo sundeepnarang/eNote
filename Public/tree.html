@@ -27,14 +27,7 @@
 
 </style>
 <body>
-  <div class="input">
-    Root: <input id="0" level="0" parent="0" type="textbox" value="Top Level"> <button id="0" level="0" onclick ="addChild($(this).attr('level'),$(this).attr('id'))">Add Child</button> <br\>
-    Child (1,0) : <input id="0" level="1" parent="0" type="textbox" value="Level 2: A"> <button id="0" level="1" onclick ="addChild($(this).attr('level'),$(this).attr('id'))">Add Child</button>
-    Child (1,1) : <input id="1" level="1" parent="0" type="textbox" value="Level 2: B"> <button id="1" level="1" onclick ="addChild($(this).attr('level'),$(this).attr('id'))">Add Child</button> <br\>
-    Child (2,0) : <input id="0" level="2" parent="1" type="textbox" value="Son of A"> <button id="0" level="2" onclick ="addChild($(this).attr('level'),$(this).attr('id'))">Add Child</button>
-    Child (2,1) : <input id="1" level="2" parent="1" type="textbox" value="Daughter of A"> <button id="1" level="2" onclick ="addChild($(this).attr('level'),$(this).attr('id'))">Add Child</button>
-    Child (2,2) : <input id="2" level="2" parent="1" type="textbox" value="Son2 of A"> <button id="2" level="2" onclick ="addChild($(this).attr('level'),$(this).attr('id'))">Add Child</button> <br\>
-  </div>
+  <div class="inputare">Enter Value here: <input type="textbox"></div>
   <div class="tree"></div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
@@ -95,15 +88,15 @@ var svg = d3.select(".tree").append("svg")
   root.x0 = height / 2;
   root.y0 = 0;
 
-  function collapse(d) {
-    if (d.children) {
-      d._children = d.children;
-      d._children.forEach(collapse);
-      d.children = null;
-    }
-  }
+  // function collapse(d) {
+  //   if (d.children) {
+  //     d._children = d.children;
+  //     d._children.forEach(collapse);
+  //     d.children = null;
+  //   }
+  // }
 
-  root.children.forEach(collapse);
+  // root.children.forEach(collapse);
   update(root);
 
 
@@ -126,11 +119,13 @@ function update(source) {
   var nodeEnter = node.enter().append("g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-      .on("click", click);
+      .on("click", click)
+      .on("dblclick",dblclick)
+      .on("contextmenu",rightClick);
 
   nodeEnter.append("circle")
       .attr("r", 1e-6)
-      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+      .style("fill", function(d) { return  "lightsteelblue" ; });
 
   nodeEnter.append("text")
       .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
@@ -197,47 +192,33 @@ function update(source) {
 }
 
 // Toggle children on click.
-function click(d) {
+function dblclick(d) {
   if (d.children) {
-    d._children = d.children;
-    d.children = null;
+    d.children.push({"name":$(".inputare input").val(),children:[]})
   } else {
-    d.children = d._children;
-    d._children = null;
+    d.children = [{"name":$(".inputare input").val(),children:[]}];
   }
+  console.log(d); 
   update(d);
 }
 
-function addChild(level,id){
-  console.log("level - ",level,"id - ",id)
-  if($('input#'+id).val() == ""){
-    alert("please name the node")
-  }else{
-    if(level>0){
-      x = treeData.children
-      console.log("First Pass - ",x)
-      while(x[0].level < level){
-        console.log("passing more - ",x)
-        if(x.children){
-          x = x.children;
-        }else{
-          x = x._children;
-        }
-      }
-      x = x.children[id]
-      if(x.children){
-        x.children.append({"name":"untitled","level":level+1,children:[]})
-      }else{
-        x.children =[];
-        x.children.append({"name":"untitled","level":level+1,children:[]})
-      }
-    }else{
-      treeData.children.append({"name":"untitled","level":level+1,children:[]})
-    }
-    root = treeData
-    update(root);
-  }
+function click (d){
+  console.log("double CLick fired",d);
 
+}
+
+function rightClick(d) {
+     //handle right click
+     console.log("right click" ,d,d.parent);
+     //stop showing browser menu
+     id = d.id;
+     d = d.parent;
+     for(i = 0;i<d.children.length;i++){
+      if(d.children[i].id == id)
+        d.children.splice(i,1)
+     }
+     d3.event.preventDefault();
+     update(d);
 }
 
 </script>
